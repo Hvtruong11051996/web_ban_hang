@@ -1,0 +1,33 @@
+.sub_phone {
+    margin-left: 125%;
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.sub_phone-item {
+    display: flex;
+}
+
+.phone-item {
+    margin-top: 10px;
+}
+
+.phone-item img {
+    width: 150px;
+    border-right: 1px solid #eee
+}
+
+.sub_phone-item .phone-item:hover img {
+    border: 1px solid #288ad6;
+    padding-top: -5px;
+    padding-bottom: -5px;
+}
+
+.banner_QC {
+    width: 1200px;
+    margin: auto;
+    margin-bottom: 50px;
+    margin-top: 10px;
+}
+
+.form-horizontal {}

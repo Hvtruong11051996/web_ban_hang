@@ -1,0 +1,19 @@
+.page-header {
+    display: flex;
+    cursor: pointer;
+}
+
+.page-header h1 {
+    font-size: 18px !important;
+    display: block;
+    background: #288ad6;
+    padding: 10px !important;
+    color: #fff !important;
+    border-right: 1px solid black;
+    margin: 0 2px 0 0 !important;
+    border-radius: 6px;
+}
+
+.page-header a {
+    text-decoration-style: none;
+}

@@ -1,0 +1,142 @@
+.Cart {
+
+    height: 1000px;
+}
+
+.container {
+    width: 700px;
+    height: auto;
+    margin: auto;
+}
+
+.Cart_sub {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Cart_content {
+    background-color: #fff;
+    box-shadow: 0px 0px 5px 0px;
+    margin-top: 50px;
+}
+
+.content {
+    display: flex;
+
+}
+
+.content img {
+    width: 100px;
+    height: 100px;
+    margin: 10px 10px;
+    cursor: pointer;
+}
+
+.content .text {
+    margin: 10px 10px;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 14px;
+}
+
+.content .text ul li {
+    margin-bottom: 5px;
+}
+
+.count {
+    margin-top: 30px;
+    display: flex;
+}
+
+.count input {
+    margin-left: 35px;
+    width: 100px;
+    padding-left: 40px;
+}
+
+.pay {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 25px;
+}
+
+.thongtinkh h1 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d0021b;
+    margin-bottom: 25px;
+    margin-left: 10px;
+}
+
+.form-group label {}
+
+.form-control {
+    width: 500px;
+    margin-left: 10px;
+}
+
+.form-group .btn {
+    width: 50%;
+    height: 53px;
+    text-align: center;
+    padding: 1px 5px 0;
+    outline: 0;
+    border-radius: 10px;
+    background-color: #fd6e1d;
+    border: solid 1px #fd6e1d;
+    margin-right: 10px;
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-bottom: 25px;
+    color: #fff;
+    font-size: 18px;
+}
+
+.Cart_product {
+    display: flex;
+    justify-content: space-between;
+}
+
+.add_Product {
+    font-size: 20px;
+    margin: 50px 0 30px 20px;
+}
+
+.myCart {
+    font-size: 20px;
+    margin: 50px 30px 30px 0;
+}
+
+.table-bordered>tbody>tr>th {
+    text-align: center;
+}
+
+.table-bordered>tbody>tr>td {
+    text-align: center;
+    line-height: 100px;
+}
+
+.table-bordered input {
+    width: 80px;
+    height: 30px;
+    text-align: center;
+}
+
+.end_cart {
+    margin-left: 76%;
+}
+
+.btn {
+    margin-left: 175px;
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+.total {
+    display: flex;
+}
+
+.total p {
+    margin: 8px 0 0 70px;
+    font-size: 18px;
+}
