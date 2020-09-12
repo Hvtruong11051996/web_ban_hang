@@ -1,4 +1,7 @@
 <?php
+session_start();
+require_once './Validate.php';
+CheckSessionAdmin();
 $conn = mysqli_connect("localhost", "root", "", "dienthoai")
     or die("kết nối thất bại!!!");
 $sql = "SELECT * FROM login_admin";

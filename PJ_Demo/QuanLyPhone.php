@@ -3,6 +3,10 @@ session_start();
 require_once 'DBphone.php';
 include 'phone.php';
 include 'phoneBusiness.php';
+require_once '../PJ_Demo/Admin/Validate.php';
+if (!CheckSessionAdmin()) {
+    header('location:Admin/login_Admin.php');
+};
 //khai báo đối tượng businessv 
 $phonebus = new phoneBusiness();
 $lapTopbus = new lapTopBusiness();

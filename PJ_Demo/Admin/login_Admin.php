@@ -1,5 +1,9 @@
 <?php
 session_start();
+require_once '../Admin/Validate.php';
+if (CheckSessionAdmin()) {
+    header('location:/PJ_Demo/QuanLyPhone.php');
+};
 $conn = mysqli_connect("localhost", "root", "", "dienthoai")
     or die("kết nối thất bại!!!");
 if (isset($_POST["btnLogin"])) {

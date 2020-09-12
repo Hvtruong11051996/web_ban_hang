@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require_once 'DBphone.php';
 include 'phone.php';
 include 'phoneBusiness.php';
@@ -11,52 +12,32 @@ $conn->query("SET NAME 'UTF-8'");
 ?>
 <?php
 if (isset($_POST["btnSubmit"])) {
+    $sql = "";
     //lấy thông tin từ các form bằng phương thức POST
     $username = isset($_POST["txtUser"])  ? $_POST["txtUser"]  : '';
-    $txtsoDienThoai = isset($_POST["txtsoDienThoai"])  ? $_POST["txtsoDienThoai"]  : '';
+    $txtsoDienThoai = isset($_POST["txtsoDienThoai"])  ? (int)$_POST["txtsoDienThoai"]  : '';
     $txtDiaChi    = isset($_POST["txtDiaChi"]) ? $_POST["txtDiaChi"] : '';
     //Kiểm tra điều kiện bắt buộc đối với các field không được bỏ trống
     if ($username === "" || $txtsoDienThoai === "" || $txtDiaChi === "" && is_numeric($txtsoDienThoai)) {
         echo "<script>alert('bạn vui lòng nhập đầy đủ thông tin')</script>";
     } else {
+        // echo $username . $txtsoDienThoai . $txtDiaChi;
+        // echo '<pre>';
+        // print_r($_SESSION['cart']);
+        // echo '</pre>';
         foreach ($_SESSION['cart'] as $key => $value) {
             $tenDienThoai = $value['tenDienThoai'];
             $anhDienThoai = $value['anhDienThoai'];
-            $gia = $value['gia'];
-            $soLuong = $value['soLuong'];
-            $tongtien = $_SESSION['tongtien'];
-            var_dump($tenDienThoai);
-            $sql = "INSERT INTO bill_kh (tenDienThoai, anhDienThoai, gia, soLuong, tongtien, name_kh, soDienThoai, diaChi ) 
-        VALUES ('$tenDienThoai', '$anhDienThoai','$gia', '$soLuong', '$tongtien', '$username', '$txtsoDienThoai', '$txtDiaChi')";
+            $gia = (int)$value['gia'];
+            $soLuong = (int)$value['soLuong'];
+            $tongtien = (int)$_SESSION['tongtien'];
+            $sql = "INSERT INTO bill_kh (tenDienThoai, anhDienThoai, gia, soLuong, tongtien, name_kh, soDienThoai, diaChi ) VALUES ('$tenDienThoai', '$anhDienThoai','$gia', '$soLuong', '$tongtien', '$username', '$txtsoDienThoai', '$txtDiaChi') ";
             // thực thi câu $sql với biến conn lấy từ file connection.php
-
+            mysqli_query($conn, $sql);
         }
-        mysqli_query($conn, $sql);
         $conn->close();
-    }
-}
-if (isset($_POST["btnSubmit"])) {
-    echo "<script>alert('đặt hàng thành công!!!')</script>";
-    header("location:webCongNghe.php");
-    session_destroy();
-}
-?>
-<?php
-if (isset($_POST['btnSubmit'])) {
-    $username = $_POST["txtUser"];
-    $txtsoDienThoai = $_POST["txtsoDienThoai"];
-    $txtDiaChi    = $_POST["txtDiaChi"];
-    if (empty($_POST['txtUser'])) {
-        echo "<script>alert('Bạn chưa nhập họ và tên!!!')</script>";
-    }
-    if (empty($_POST['txtsoDienThoai'])) {
-        echo "<script>alert('Bạn chưa nhập số điện thoại!!!')</script>";
-    }
-    if (empty($_POST['txtDiaChi'])) {
-        echo "<script>alert('Bạn chưa nhập địa chỉ!!!')</script>";
-    }
-    if (!empty($_POST['txtUser']) && !empty($_POST['txtsoDienThoai']) && !empty($_POST['txtDiaChi'])) {
-        echo "<script>alert('đặt hàng thành công!!!')</script>";
+        session_unset('cart');
+        echo '<script>swal("Good job!", "You clicked the button!", "success")</script>';
     }
 }
 ?>
@@ -115,9 +96,11 @@ if (isset($_POST['btnSubmit'])) {
                     </tr>
                 </div>
                 <?php
-
                 $stt = 1;
-                foreach ($_SESSION['cart'] as $key => $value) { ?>
+                if (isset($_SESSION['cart'])) {
+                    foreach ($_SESSION['cart'] as $key => $value) {
+
+                ?>
                 <tr>
                     <td><?php echo $stt ?></td>
                     <td>
@@ -130,21 +113,19 @@ if (isset($_POST['btnSubmit'])) {
                     <td><?php echo number_format($value['sale'], 0, ',', '.') . " " . "đ" ?></td>
                     <td><?php echo number_format($value['gia'] * $value['soLuong'] - $value['sale'], 0, ',', '.') . " " . "đ" ?>
                     </td>
-                    </td>
                     <td>
-                        <a onclick="return confirm('bank có chắc chắn muốn xóa k???')"
-                            href="xoa.php?id=<?php echo $value['id'] ?>">
+                        <a href="gio-hang.php?id=<?php echo $value['id'] ?>">
                             <i class="fas fa-trash-alt"></i> Delete
                         </a>
                     </td>
                 </tr>
                 <?php
-                    $sum += $value['gia'] * $value['soLuong'] - $value['sale'];
-                    $_SESSION['tongtien'] = isset($sum) ? $sum : "";
-                    ?>
-                <?php $stt++;
-                    // session_destroy();
-                } ?>
+                        $sum += $value['gia'] * $value['soLuong'] - $value['sale'];
+                        $_SESSION['tongtien'] = isset($sum) ? $sum : "";
+                        $stt++;
+                    }
+                }
+                ?>
             </table>
             <div class="end_cart">
                 <div class="total">
@@ -160,38 +141,81 @@ if (isset($_POST['btnSubmit'])) {
             <div class="form-horizontal">
                 <h1>Thông tin khách hàng</h1>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Họ Và Tên: </label>
+                    <label for="txtUser" class="col-sm-2 control-label">Họ Và Tên: </label>
                     <div class="col-sm-10">
-                        <input type="text" name="txtUser" autocomplete="off" class="form-control" id="inputEmail3"
+                        <input type="text" name="txtUser" autocomplete="off" class="form-control" id="txtUser"
                             placeholder="Họ và tên...">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Số Điện Thoại: </label>
+                    <label for="txtsoDienThoai" class="col-sm-2 control-label">Số Điện Thoại: </label>
                     <div class="col-sm-10">
                         <input type="text" autocomplete="off" name="txtsoDienThoai" class="form-control"
-                            id="inputPassword3" placeholder="Số điện thoại...">
+                            id="txtsoDienThoai" placeholder="Số điện thoại...">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword3" class="col-sm-2 control-label">Địa Chỉ: </label>
+                    <label for="txtDiaChi" class="col-sm-2 control-label">Địa Chỉ: </label>
                     <div class="col-sm-10">
-                        <input type="text" autocomplete="off" name="txtDiaChi" class="form-control" id="inputPassword3"
+                        <input type="text" autocomplete="off" name="txtDiaChi" class="form-control" id="txtDiaChi"
                             placeholder="Giao đến nơi...">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <a href=""><input name="btnSubmit" type="submit" class="btn btn-default"
-                                value="Đặt Hàng"></input></a>
+                        <a href=""><input name="btnSubmit" disabled type="submit" id="btnSubmitForm"
+                                class="btn btn-default" value="Đặt Hàng"></input></a>
                     </div>
                 </div>
             </div>
     </form>
     </div>
+    <?php
+    /** xoa san pham trong gio hang */
+    if (isset($_GET['id'])) {
+        foreach ($_SESSION['cart'] as $value) {
+            if ((int)$value['id'] === (int)$_GET['id']) {
+                unset($_SESSION['cart'][(int)$value['id']]);
+                echo '<script>location.reload()</script>';
+            }
+        }
+    }
+    /** end */
+    ?>
     <!--     footer        -->
     <?php include './layouts_2/footer.php' ?>
     <!--      end  -->
+    <script>
+    $(document).ready(function() {
+        var inputActive = {
+            isName: false,
+            isPhone: false,
+            isAddress: false,
+        };
+        $("#txtUser").keyup(function() {
+            inputActive.isName = $.trim($(this).val()) !== "" ? true : false;
+            activeButtonSubmit(inputActive);
+        })
+        $("#txtsoDienThoai").keyup(function() {
+            var txtPhone = $.trim($(this).val());
+            var regex = new RegExp('[0-9]{10}');
+            inputActive.isPhone = regex.test(txtPhone) ? true : false;
+            activeButtonSubmit(inputActive);
+        })
+        $("#txtDiaChi").keyup(function() {
+            inputActive.isAddress = $.trim($(this).val()) !== "" ? true : false;
+            activeButtonSubmit(inputActive);
+        })
+    })
+
+    function activeButtonSubmit(inputActive) {
+        if (inputActive.isName && inputActive.isPhone && inputActive.isAddress) {
+            $("#btnSubmitForm").prop('disabled', false);
+        } else {
+            $("#btnSubmitForm").prop('disabled', true);
+        }
+    }
+    </script>
 </body>
 
 </html>

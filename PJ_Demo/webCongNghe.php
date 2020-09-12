@@ -22,8 +22,10 @@ $dslapTop = $lapTopbus->laythongtinlaptop();
     <link rel="stylesheet" href="layouts_2/assets_2/bootstrap_3/css/bootstrap.min.css">
     <link rel="stylesheet" href="layouts_2/assets_2/style.css">
     <link rel="stylesheet" href="layouts_2/assets_2/font-awesome/fontawesome-free-5.13.0-web/css/all.css">
+    <link rel="stylesheet" href="./layouts_2/assets_2/sweetalert/sweetalert.css">
     <script src="layouts_2/assets_2/bootstrap_3/js/bootstrap.min.js"></script>
     <script src="layouts_2/assets_2/Jquery/jquery-3.4.1.min.js"></script>
+    <script src="./layouts_2/assets_2/sweetalert/sweetalert.min.js"></script>
 </head>
 
 <body>

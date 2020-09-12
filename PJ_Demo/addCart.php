@@ -13,11 +13,7 @@ $sql = "select * from phone where id = $id";
 // Thực hiện truy vấn data thông qua hàm mysqli_query
 $query = mysqli_query($conn, $sql);
 $data = mysqli_fetch_array($query);
-echo '<pre>';
-print_r($data['soLuong']);
-echo '</pre>';
 $id = intval($_GET['id']);
-
 if (!isset($_SESSION['cart'][$id])) {
 
     $_SESSION['cart'][$id]['tenDienThoai'] = $data['tenDienThoai'];
@@ -25,6 +21,7 @@ if (!isset($_SESSION['cart'][$id])) {
     $_SESSION['cart'][$id]['soLuong'] = 1;
     $_SESSION['cart'][$id]['sale'] = $data['sale'];
     $_SESSION['cart'][$id]['gia'] = $data['gia'];
+    $_SESSION['cart'][$id]['id'] = $id;
     // $_SESSION['cart'][$id]['thanhTien'] = $data['gia'] * $data['soLuong'] - $data['sale'];
 } else {
     $_SESSION['cart'][$id]['soLuong'] += 1;
